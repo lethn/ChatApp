@@ -142,7 +142,7 @@ public class ChatActivity extends BaseActivity {
                             JSONArray results = responseJSON.getJSONArray("results");
                             if (responseJSON.getInt("failure") == 1){
                                 JSONObject error = (JSONObject) results.get(0);
-                                showToast(error.getString("error"));
+                                //showToast(error.getString("error"));
                                 return;
                             }
                         }

@@ -25,7 +25,7 @@ public class UsersActivity extends BaseActivity implements UserListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        System.out.println("Select User Click!");
+        System.out.println("Select User Clicked!");
         super.onCreate(savedInstanceState);
         binding = ActivityUsersBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -76,7 +76,7 @@ public class UsersActivity extends BaseActivity implements UserListener {
     }
 
     private void showErrorMessage(){
-        binding.textErrorMessage.setText(String.format("%s", "No user available"));
+        binding.textErrorMessage.setText(String.format("%s", "No User Available"));
         binding.textErrorMessage.setVisibility(View.VISIBLE);
     }
 
