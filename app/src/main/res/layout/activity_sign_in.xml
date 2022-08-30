@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/_40sdp"
+        android:layout_marginTop="@dimen/_15sdp"
         android:orientation="vertical">
 
         <ImageView
@@ -23,7 +23,6 @@
             android:src="@drawable/ic_qtcord"
             android:layout_gravity="center"/>
 
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,7 +30,7 @@
             android:layout_gravity="center"
             android:text="@string/login_to_continue"
             android:textColor="@color/secondary_text"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/_14ssp"
             android:textStyle="bold" />
 
         <EditText
@@ -93,7 +92,7 @@
             android:id="@+id/textCreateNewAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_15sdp"
             android:layout_gravity="center"
             android:text="@string/create_new_account"
             android:textColor="@color/primary"
