@@ -14,18 +14,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/_26sdp"
+        android:layout_marginTop="@dimen/_40sdp"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_40sdp"
-            android:layout_gravity="center"
-            android:text="@string/welcome_back"
-            android:textColor="@color/primary_text"
-            android:textSize="@dimen/_23ssp"
-            android:textStyle="bold" />
+        <ImageView
+            android:layout_width="@dimen/_250sdp"
+            android:layout_height="@dimen/_125sdp"
+            android:src="@drawable/ic_qtcord"
+            android:layout_gravity="center"/>
+
 
         <TextView
             android:layout_width="wrap_content"
@@ -34,14 +31,14 @@
             android:layout_gravity="center"
             android:text="@string/login_to_continue"
             android:textColor="@color/secondary_text"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/_12ssp"
             android:textStyle="bold" />
 
         <EditText
             android:id="@+id/inputEmail"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_45sdp"
-            android:layout_marginTop="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_20sdp"
             android:background="@drawable/background_input"
             android:hint="@string/email"
             android:imeOptions="actionNext"
@@ -102,7 +99,7 @@
             android:textColor="@color/primary"
             android:textSize="@dimen/_13ssp"
             android:textStyle="bold"/>
-        
+
     </LinearLayout>
 
 </ScrollView>

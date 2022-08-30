@@ -2,6 +2,7 @@ package com.example.chatapp.adapters;
 
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -85,6 +86,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         void setData(ChatMessage chatMessage){
             binding.textMessage.setText(chatMessage.message);
             binding.textDateTime.setText(chatMessage.dateTime);
+            binding.getRoot().setOnClickListener(v ->{});
         }
     }
 
@@ -102,6 +104,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             if (receiverProfileImage != null){
                 binding.imageProfile.setImageBitmap(receiverProfileImage);
             }
+            binding.getRoot().setOnClickListener(v -> {});
         }
     }
 }

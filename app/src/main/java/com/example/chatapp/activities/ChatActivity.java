@@ -1,13 +1,14 @@
 package com.example.chatapp.activities;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -79,6 +81,10 @@ public class ChatActivity extends BaseActivity {
     }
 
     private void sendMessage(){
+        if(binding.inputMessage.getText().toString().isEmpty()){
+            showToast("Message required");
+            return;
+        }
         HashMap<String, Object> message = new HashMap<>();
         message.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
         message.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
@@ -86,7 +92,7 @@ public class ChatActivity extends BaseActivity {
         message.put(Constants.KEY_TIMESTAMP, new Date());
         database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
         if(conversionId != null){
-            updateConversion(binding.inputMessage.getText().toString());
+            updateConversion(binding.inputMessage.getText().toString(), preferenceManager.getString(Constants.KEY_USER_ID));
         }
         else{
             HashMap<String, Object> conversion = new HashMap<>();
@@ -97,6 +103,7 @@ public class ChatActivity extends BaseActivity {
             conversion.put(Constants.KEY_RECEIVER_NAME, receiverUser.name);
             conversion.put(Constants.KEY_RECEIVER_IMAGE, receiverUser.image);
             conversion.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
+            conversion.put(Constants.KEY_LAST_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
             conversion.put(Constants.KEY_TIMESTAMP, new Date());
             addConversion(conversion);
         }
@@ -127,7 +134,6 @@ public class ChatActivity extends BaseActivity {
     private void showToast(String message){
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
-
     private void sendNotification(String messageBody){
         ApiClient.getClient().create(ApiService.class).sendMessage(
                 Constants.getRemoteMsgHeaders(),
@@ -240,6 +246,14 @@ public class ChatActivity extends BaseActivity {
         }
     };
 
+    private void makePhoneCall(){
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + receiverUser.phone));
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
     private Bitmap getBitmapFromEncodeString(String encodedImage){
         if (encodedImage != null){
             byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
@@ -253,15 +267,33 @@ public class ChatActivity extends BaseActivity {
     private void setListeners(){
         binding.imageBack.setOnClickListener(v -> onBackPressed());
         binding.layoutSend.setOnClickListener(v -> sendMessage());
+        binding.imageCall.setOnClickListener(v -> makePhoneCall());
     }
 
     private void loadReceiverDetails(){
         receiverUser = (User) getIntent().getSerializableExtra(Constants.KEY_USER);
         binding.textName.setText(receiverUser.name);
+        binding.imageProfile.setImageBitmap(getBitmapFromEncodeString(receiverUser.image));
     }
 
     private String getReadableDatetime(Date date){
-        return new SimpleDateFormat("dd MM, yyyy - hh:mm a", Locale.getDefault()).format(date);
+        Calendar calendarDate = Calendar.getInstance(Locale.getDefault());
+        calendarDate.setTime(date);
+
+        Calendar midnight = Calendar.getInstance(Locale.getDefault());
+        midnight.set(Calendar.HOUR_OF_DAY, 0);
+        midnight.set(Calendar.MINUTE, 0);
+        midnight.set(Calendar.SECOND, 0);
+        midnight.set(Calendar.MILLISECOND, 0);
+        String readableDateTime = "";
+        if (calendarDate.compareTo(midnight) >= 0)
+        {
+            return "Today - " + new SimpleDateFormat("hh:mm a", Locale.getDefault()).format(date);
+        }
+        else
+        {
+            return new SimpleDateFormat("dd/MM/yyyy - hh:mm a", Locale.getDefault()).format(date);
+        }
     }
 
     private void addConversion(HashMap<String, Object> conversion){
@@ -270,9 +302,13 @@ public class ChatActivity extends BaseActivity {
                 .addOnSuccessListener(documentReference -> conversionId = documentReference.getId());
     }
 
-    private void updateConversion(String message){
+    private void updateConversion(String message, String senderId){
         DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_CONVERSATIONS).document(conversionId);
-        documentReference.update(Constants.KEY_LAST_MESSAGE, message, Constants.KEY_TIMESTAMP, new Date());
+        documentReference.update(
+                Constants.KEY_LAST_MESSAGE, message,
+                Constants.KEY_TIMESTAMP, new Date(),
+                Constants.KEY_LAST_SENDER_ID, senderId
+        );
     }
 
     private void checkForConversion(){

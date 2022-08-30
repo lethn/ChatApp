@@ -65,6 +65,7 @@ public class SignUpActivity extends AppCompatActivity {
         HashMap<String, Object> user = new HashMap<>();
         user.put(Constants.KEY_NAME, binding.inputName.getText().toString());
         user.put(Constants.KEY_EMAIL, binding.inputEmail.getText().toString());
+        user.put(Constants.KEY_PHONE, binding.inputPhone.getText().toString());
         user.put(Constants.KEY_PASSWORD, binding.inputPassword.getText().toString());
         user.put(Constants.KEY_IMAGE, encodedImage);
         database.collection(Constants.KEY_COLLECTION_USERS)
@@ -124,11 +125,20 @@ public class SignUpActivity extends AppCompatActivity {
             return false;
         }
         else if (binding.inputName.getText().toString().trim().isEmpty()){
-            showToast("Enter Name");
+            showToast("Missing Name Value");
+            return false;
+        }
+        else if (binding.inputPhone.getText().toString().trim().isEmpty()){
+            showToast("Missing Phone Number");
+            return false;
+        }
+        else if(!(binding.inputPhone.getText().toString().matches("[0-9]+")) ||
+                binding.inputPhone.getText().toString().length() < 10){
+            showToast("Invalid Phone Number");
             return false;
         }
         else if (binding.inputEmail.getText().toString().trim().isEmpty()){
-            showToast("Enter Email");
+            showToast("Missing Email Address");
             return false;
         }
         else if (!Patterns.EMAIL_ADDRESS.matcher(binding.inputEmail.getText().toString()).matches()){
@@ -136,7 +146,7 @@ public class SignUpActivity extends AppCompatActivity {
             return false;
         }
         else if (binding.inputPassword.getText().toString().trim().isEmpty()){
-            showToast("Enter Password");
+            showToast("Missing Password");
             return false;
         }
         else if (binding.inputConfirmPassword.getText().toString().trim().isEmpty()){

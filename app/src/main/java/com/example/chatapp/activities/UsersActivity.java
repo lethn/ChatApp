@@ -25,7 +25,6 @@ public class UsersActivity extends BaseActivity implements UserListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        System.out.println("Select User Clicked!");
         super.onCreate(savedInstanceState);
         binding = ActivityUsersBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -57,6 +56,7 @@ public class UsersActivity extends BaseActivity implements UserListener {
                             user.email = queryDocumentSnapshots.getString(Constants.KEY_EMAIL);
                             user.image = queryDocumentSnapshots.getString(Constants.KEY_IMAGE);
                             user.token = queryDocumentSnapshots.getString(Constants.KEY_FCM_TOKEN);
+                            user.phone = queryDocumentSnapshots.getString(Constants.KEY_PHONE);
                             user.id = queryDocumentSnapshots.getId();
                             users.add(user);
                         }

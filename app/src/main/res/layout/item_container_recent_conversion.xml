@@ -4,7 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="@dimen/_8sdp">
+    android:paddingTop="@dimen/_8sdp"
+    android:paddingBottom="@dimen/_8sdp"
+    android:paddingEnd="@dimen/_8sdp"
+    android:paddingStart="@dimen/_16sdp"
+    android:background="@drawable/background_click_effect">
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/imageProfile"
@@ -23,7 +27,7 @@
         app:layout_constraintBottom_toBottomOf="@id/imageProfile"
         app:layout_constraintStart_toEndOf="@id/imageProfile"
         app:layout_constraintTop_toTopOf="@id/imageProfile"/>
-    
+
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"

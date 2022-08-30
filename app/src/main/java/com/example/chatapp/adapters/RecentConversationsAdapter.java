@@ -21,7 +21,7 @@ public class RecentConversationsAdapter extends RecyclerView.Adapter<RecentConve
     private final List<ChatMessage> chatMessages;
     private final ConversionListener conversionListener;
 
-    public RecentConversationsAdapter(List<ChatMessage> chatMessages, ConversionListener conversionListener) {
+    public RecentConversationsAdapter(List<ChatMessage> chatMessages, List<String> phones, ConversionListener conversionListener) {
         this.chatMessages = chatMessages;
         this.conversionListener = conversionListener;
     }
